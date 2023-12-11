@@ -18,7 +18,7 @@ export const TodoItem = ( {mode,item,handleCheckbox} ) => {
     if(mode === "list") setEditMode("list");
     else if(mode === "add") setEditMode("add");
     else setEditMode("update");
-  },[]);
+  },[mode]);
 
   // 등록했을때 글에 id값을 넣기위해 현재 시간으로추가
   const generateUniqueId = () => {
@@ -31,11 +31,23 @@ export const TodoItem = ( {mode,item,handleCheckbox} ) => {
     if( inputValue === "") {
       alert('글을 써주세요.');
     } else { 
-      
+      let currentDate = new Date();
+      // 년, 월, 일 추출
+      let year = currentDate.getFullYear();
+      let month = currentDate.getMonth() + 1; // 월은 0부터 시작하므로 1을 더합니다.
+      let day = currentDate.getDate();
+      // 날짜를 "YYYY/MM/DD" 형식으로 표시
+      let formattedDate = year + '/' + (month < 10 ? '0' + month : month) + '/' + (day < 10 ? '0' + day : day);
+
+      // 결과 출력
+      console.log(formattedDate);
+
       const todo = {
         id: generateUniqueId(),
-        text: inputValue
+        text: inputValue,
+        date : formattedDate
       }
+      
       dispatch({type:"ADD_TODO", payload : todo })
       alert('등록 완료');
       setEditMode("list");
@@ -84,16 +96,19 @@ export const TodoItem = ( {mode,item,handleCheckbox} ) => {
         : ''}
 
         {editMode === "list" ? 
-         <Card.Body className='card_item'>
-          <input 
-            type='checkbox'
-            onChange={(e) =>handleCheckboxChange(e)}
-            />
-          <Card.Text className='card_text'>{item.text}</Card.Text>
-          <Button variant="danger" className='card_btn' onClick={(e)=> updateTodo(e)}>
-            수정
-          </Button>
-        </Card.Body>
+        <div>
+          <span style={{"padding":"16px"}}>{item.date}</span>
+          <Card.Body className='card_item'>
+            <input 
+              type='checkbox'
+              onChange={(e) =>handleCheckboxChange(e)}
+              />
+            <Card.Text className='card_text'>{item.text}</Card.Text>
+            <Button variant="danger" className='card_btn' onClick={(e)=> updateTodo(e)}>
+              수정
+            </Button>
+          </Card.Body>
+        </div>
         : ''}
   
         {editMode === "update" ? 

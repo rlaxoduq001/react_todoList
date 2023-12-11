@@ -11,7 +11,8 @@ function reducer(state=initialState, action) {
           ...state.todoList,
           {
             text : action.payload.text,
-            id : action.payload.id
+            id : action.payload.id,
+            date : action.payload.date
           }
         ]
       }
@@ -21,7 +22,7 @@ function reducer(state=initialState, action) {
           todoList: action.payload,
         };
 
-      case 'UPDATE_TODO_TEXT':
+      case 'DELETE_TODO_TEXT':
         return {
           ...state,
           todoList: action.payload,

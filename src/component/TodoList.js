@@ -14,7 +14,6 @@ export const TodoList = () => {
   const todoList = useSelector((state=>state.todoList)); 
   const [selectedItems, setSelectedItems] = useState([]);
   
-
   useEffect( () => {
   },[])
   
@@ -31,29 +30,27 @@ export const TodoList = () => {
   };
 
   const deleteTodo = () => {
-    setSelectedItems([]);
     const updatedList = todoList.filter((item) => !selectedItems.includes(item.id));
-    dispatch({ type: 'UPDATE_TODO_TEXT', payload: updatedList });
+    setSelectedItems([]);
+    dispatch({ type: 'DELETE_TODO_TEXT', payload: updatedList });
   }
 
   return (
     <div>
-    <Container className='list_continer'>
-      <div className='btn_container'>
-        <Button variant="primary" onClick={()=>gotoPage()}>추가</Button>{' '}
-        <Button variant="secondary" onClick={()=>deleteTodo()}>삭제</Button>{' '}
-      </div>
-      
-      <Row className="justify-content-md-center">
-        <Col md="auto">
-          {todoList.map((item,idx) => (
-            <TodoItem key={idx} item={item} handleCheckbox={handleCheckbox} mode="list"/>
-          ))}
-        </Col>
-      </Row>
-    </Container>
-
-
+      <Container className='list_continer'>
+        <div className='btn_container'>
+          <Button variant="primary" onClick={()=>gotoPage()}>추가</Button>{' '}
+          <Button variant="secondary" onClick={()=>deleteTodo()}>삭제</Button>{' '}
+        </div>
+        
+        <Row className="justify-content-md-center">
+          <Col md="auto">
+            {todoList.map((item,idx) => (
+              <TodoItem key={idx} item={item} handleCheckbox={handleCheckbox} mode="list"/>
+            ))}
+          </Col>
+        </Row>
+      </Container>
     </div>
   )
 }
